@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Quiz System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{margin:0;font-family:Arial;background:#f5f7fa}
+.top{background:#fff;padding:15px 30px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:bold;color:#2c7be5}
+.nav button{padding:8px 16px;margin-left:10px;border:none;background:#2c7be5;color:white;border-radius:4px;cursor:pointer}
+.path{padding:15px 30px;font-size:14px;color:#555}
+.main{width:70%;margin:20px auto;background:white;padding:30px;border-radius:8px;border:1px solid #ddd}
+.members{margin-top:25px;padding:15px;background:#f1f4f8;border-radius:6px}
+.start{text-align:center;margin-top:30px}
+.start button{padding:12px 30px;background:#2c7be5;color:white;border:none;font-size:16px;border-radius:5px;cursor:pointer}
+.login-screen,.quiz-area,.select-quiz{display:none;min-height:100vh;justify-content:center;align-items:center}
+.login-screen{background:linear-gradient(to right,#1d2671,#c33764);color:white}
+.login-box,.quiz-card,.select-box{background:white;padding:30px;border-radius:10px;width:90%;max-width:500px;text-align:center}
+.login-box{background:rgba(0,0,0,.6);color:white}
+.login-box input{width:100%;padding:10px;margin:8px 0;border:none;border-radius:5px}
+.login-box button,.quiz-card button,.select-box button{padding:10px 20px;background:#2c7be5;color:white;border:none;border-radius:5px;cursor:pointer;margin:5px}
+.quiz-card ul{list-style:none;padding:0;text-align:left}
+.quiz-card li{margin:10px 0}
+</style>
+</head>
+
+<body>
+
+<div id="welcomePage">
+<div class="top">
+<div class="logo">SMART QUIZ </div>
+<div class="nav">
+<button>Create Quiz</button>
+<button onclick="openLogin()">Take Quiz</button>
+</div>
+</div>
+
+<div class="path">Education › Computer Science › Software Engineering</div>
+
+<div class="main">
+<h1> AICT LAB MCQs Quiz</h1>
+<p>This quiz website is created as an AICT project.</p>
+
+<div class="members">
+<h3>Group Members</h3>
+<ul>
+<li>Yash Chawla</li>
+<li> Savita dawani</li>
+<li> kawish kumar</li>
+<li> Kabeer das</li>
+</ul>
+</div>
+
+<div class="start">
+<button onclick="openLogin()">Start Quiz</button>
+</div>
+</div>
+</div>
+
+<div class="login-screen" id="loginScreen">
+<div class="login-box">
+<h2>Student Login</h2>
+<input id="userNameInput" placeholder="Username">
+<input id="userPassInput" type="password" placeholder="Password">
+<button onclick="checkLogin()">Login</button>
+</div>
+</div>
+
+<div class="select-quiz" id="selectQuiz">
+<div class="select-box">
+<h2>Select Quiz</h2>
+<button onclick="startQuiz('aict')">AICT</button>
+<button onclick="startQuiz('pf')">PF</button>
+<button onclick="startQuiz('java')">Java</button>
+<button onclick="startQuiz('physics')">Physics</button>
+<button onclick="startQuiz('english')">English</button>
+</div>
+</div>
+
+<div class="quiz-area" id="quizArea">
+<div class="quiz-card" id="quizCard">
+<h2 id="quizQuestion"></h2>
+<ul>
+<li><input type="radio" name="option" id="opt1"> <label id="opt1Text"></label></li>
+<li><input type="radio" name="option" id="opt2"> <label id="opt2Text"></label></li>
+<li><input type="radio" name="option" id="opt3"> <label id="opt3Text"></label></li>
+<li><input type="radio" name="option" id="opt4"> <label id="opt4Text"></label></li>
+</ul>
+<button onclick="nextQuestion()">Next</button>
+</div>
+</div>
+
+<script>
+const users=[
+{u:"Yash chawla",p:"cs251160"},
+{u:"Savita",p:"cs251133"},
+{u:"Kabeer",p:"cs251045"},
+{u:"Kawaish",p:"cs251076"}
+];
+
+function openLogin(){
+welcomePage.style.display="none";
+loginScreen.style.display="flex";
+}
+
+function checkLogin(){
+const u=userNameInput.value;
+const p=userPassInput.value;
+if(users.some(x=>x.u===u && x.p===p)){
+loginScreen.style.display="none";
+selectQuiz.style.display="flex";
+}else alert("Wrong login details");
+}
+
+const quizzes={
+aict:[
+{q:"AICT stands for?",o:["Advanced ICT","Applied ICT","Artificial Intelligence","None"],a:0},
+{q:"AICT is related to?",o:["Medical","IT","Commerce","Arts"],a:1},
+{q:"AICT lab is for?",o:["Games","Programming","Sports","Cooking"],a:1},
+{q:"AICT project uses?",o:["HTML","Biology","Chemistry","Physics"],a:0},
+{q:"AICT students learn?",o:["Coding","Painting","Singing","Dancing"],a:0},
+{q:"AICT improves?",o:["Skills","Sleep","Food","Music"],a:0}
+],
+pf:[
+{q:"Loop is used for?",o:["Decision","Repetition","Function","Array"],a:1},
+{q:"Variable stores?",o:["Value","Loop","Class","Object"],a:0},
+{q:"PF means?",o:["Programming Fundamentals","Primary Function","Public File","None"],a:0},
+{q:"Which is data type?",o:["int","loop","if","goto"],a:0},
+{q:"Compiler does?",o:["Translate","Store","Delete","Draw"],a:0},
+{q:"C language is?",o:["Low","High","Middle","None"],a:2}
+],
+java:[
+{q:"Java is?",o:["OS","Language","Browser","Device"],a:1},
+{q:"Java is?",o:["Compiled","Interpreted","Both","None"],a:2},
+{q:"JVM stands for?",o:["Java Virtual Machine","Joint VM","Java Variable","None"],a:0},
+{q:"Java uses?",o:["Pointers","Objects","Macros","None"],a:1},
+{q:"Java is?",o:["Platform dependent","Independent","Hardware","None"],a:1},
+{q:"Java file extension?",o:[".java",".js",".html",".cpp"],a:0}
+],
+physics:[
+{q:"Unit of Force?",o:["Volt","Newton","Watt","Joule"],a:1},
+{q:"Speed unit?",o:["m/s","kg","N","J"],a:0},
+{q:"Gravity value?",o:["9.8","10","8","5"],a:0},
+{q:"SI unit of mass?",o:["Kg","Gram","Ton","Pound"],a:0},
+{q:"Energy unit?",o:["Joule","Newton","Volt","Ampere"],a:0},
+{q:"Motion related to?",o:["Distance","Heat","Light","Sound"],a:0}
+],
+english:[
+{q:"Synonym of Fast?",o:["Slow","Quick","Late","Weak"],a:1},
+{q:"Antonym of Hot?",o:["Cold","Warm","Heat","Fire"],a:0},
+{q:"Plural of Child?",o:["Childs","Children","Childes","None"],a:1},
+{q:"Verb in sentence?",o:["Run","Boy","Red","Table"],a:0},
+{q:"Article is?",o:["a","run","blue","fast"],a:0},
+{q:"Tense shows?",o:["Time","Place","Name","Thing"],a:0}
+]
+};
+
+let list=[],index=0,marks=0;
+
+function startQuiz(type){ 
+list=quizzes[type];
+index=0;marks=0;
+selectQuiz.style.display="none";
+quizArea.style.display="flex";
+loadQuestion();
+}
+
+function loadQuestion(){
+document.querySelectorAll("input[name='option']").forEach(i=>i.checked=false);
+quizQuestion.innerText=list[index].q;
+opt1Text.innerText=list[index].o[0];
+
+opt2Text.innerText=list[index].o[1];
+opt3Text.innerText=list[index].o[2];
+opt4Text.innerText=list[index].o[3];
+}
+
+function nextQuestion(){
+const s=document.querySelector("input[name='option']:checked");
+if(!s){alert("Select an option");return;}
+if(["opt1","opt2","opt3","opt4"].indexOf(s.id)===list[index].a)marks++;
+index++;
+if(index<list.length) loadQuestion();
+else quizCard.innerHTML="<h2>Result</h2><h3>"+marks+" / "+list.length+"</h3><button onclick='location.reload()'>Restart</button>";
+}
+</script>
+
+</body>
+</html>
